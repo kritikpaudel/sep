@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Challenge 2: Guess The Term</title>
+  <link rel="icon" href="../image/cyber.png">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #6e8efb, #a777e3);
+      color: #fff;
+      min-height: 100vh;
+    }
+    h1 {
+      margin: 20px;
+      text-align: center;
+      animation: glow 1.5s infinite alternate;
+    }
+    @keyframes glow {
+      0% { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #ff00ff; }
+      100% { text-shadow: 0 0 20px #ff00ff, 0 0 30px #ff00ff, 0 0 40px #ff00ff; }
+    }
+    .game-container {
+      max-width: 800px;
+      width: 90%;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+    .lucky-draw-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    .card {
+      width: 100%;
+      height: 150px;
+      background: #fff;
+      color: #000;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      text-align: center;
+      transition: transform 0.3s ease, background 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
+    .card {
+      transform-style: preserve-3d;
+      transition: transform 0.6s;
+    }
+    .card.revealed {
+      transform: rotateY(180deg);
+    }
+    .card span, .card img {
+      backface-visibility: hidden;
+      position: absolute;
+    }
+
+    .card:hover {
+      transform: scale(1.1);
+      background: #ff00ff;
+      color: #fff;
+    }
+    .answers input {
+      width: 95%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 2px solid #fff;
+      border-radius: 5px;
+      font-size: 16px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      transition: border-color 0.3s ease;
+    }
+    .answers input.error {
+      border-color: red;
+      background: #ffe5e5;
+    }
+    .answers input:focus {
+      outline: none;
+      border-color: #ff00ff;
+    }
+    .submit-btn {
+      background: #ff00ff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 18px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .submit-btn:hover {
+      background: #e000e0;
+    }
+    .message {
+      font-size: 20px;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <audio src="../audio/PUBG.mp3" autoplay loop></audio>
+  <h1>Guess The Term</h1>
+<div class="game-container">
+  <div class="lucky-draw-grid">
+    <div class="card-wrapper">
+      <div class="card" onclick="revealCard(this, '🎣💻')">
+        <span>Click to reveal</span>
+      </div>
+      <div class="clue">Clue: That fishy-looking email could explode</div>
+    </div>
+    <div class="card-wrapper">
+      <div class="card" onclick="revealCard(this, '🕵️‍♀️🌐🪪')">
+        <span>Click to reveal</span>
+      </div>
+      <div class="clue">Clue: They are watching your every click</div>
+    </div>
+    <div class="card-wrapper">
+      <div class="card" onclick="revealCard(this, '🧑‍🦲🗡️👑⚰️')">
+        <span>Click to reveal</span>
+      </div>
+      <div class="clue">Clue: Famous backstabber</div>
+    </div>
+    <div class="card-wrapper">
+      <div class="card" onclick="revealCard(this, '👥📞🎭')">
+        <span>Click to reveal</span>
+      </div>
+      <div class="clue">Clue: Pretending to be someone else to trick you</div>
+    </div>
+    <div class="card-wrapper">
+      <div class="card" onclick="revealCard(this, '🧩🔍📜')">
+        <span>Click to reveal</span>
+      </div>
+      <div class="clue">Clue: Hidden message</div>
+    </div>
+    <div class="card-wrapper">
+      <div class="card" onclick="revealCard(this, '👨‍💻🔁🗝️')">
+        <span>Click to reveal</span>
+      </div>
+      <div class="clue">Clue: Hidden message</div>
+    </div>
+  </div>
+  <div class="answers">
+    <input type="text" id="answer1" placeholder="Enter your answer for Emoji 1"><span class="feedback"></span>
+    <input type="text" id="answer2" placeholder="Enter your answer for Emoji 2"><span class="feedback"></span>
+    <input type="text" id="answer3" placeholder="Enter your answer for Emoji 3"><span class="feedback"></span>
+    <input type="text" id="answer4" placeholder="Enter your answer for Emoji 4"><span class="feedback"></span>
+    <input type="text" id="answer5" placeholder="Enter your answer for Emoji 5"><span class="feedback"></span>
+    
+  </div>
+  <button class="submit-btn" onclick="checkAnswers()">Submit</button>
+  <button class="submit-btn" onclick="resetGame()">Reset</button>
+  <div class="message" id="message"></div>
+</div>
+
+<script>
+  // Disable Right-Click
+  document.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+        });
+
+        // Disable Key Combinations
+        document.addEventListener('keydown', function (e) {
+            // Check for specific key combinations
+            if (
+                (e.ctrlKey && e.shiftKey && e.key === 'I') || // Ctrl+Shift+I
+                (e.ctrlKey && e.key === 'U') ||              // Ctrl+U
+                (e.ctrlKey && e.key === 'S') ||              // Ctrl+S
+                (e.ctrlKey && e.shiftKey && e.key === 'J') || // Ctrl+Shift+J
+                (e.key === 'F12')                            // F12
+            ) {
+                e.preventDefault();
+                alert("This shortcut is disabled.");
+            }
+        });
+  const correctAnswers = ["Phishing", "Digital Footprint", "Kattappa", "Social Engineering", "Steganography"];
+  function revealCard(card, emoji) {
+    if (!card.classList.contains('revealed')) {
+      card.innerHTML = `<span>${emoji}</span>`;
+      card.classList.add('revealed');
+    }
+  }
+
+  function checkAnswers() {
+    let allCorrect = true;
+
+    for (let i = 1; i <= 5; i++) {
+      const userAnswer = document.getElementById(`answer${i}`);
+      const correctAnswer = correctAnswers[i - 1];
+
+      if (userAnswer.value.trim().toLowerCase() === correctAnswer.toLowerCase()) {
+        userAnswer.classList.remove('error');
+        userAnswer.nextElementSibling.textContent = ""; // Clear feedback
+      } else {
+        userAnswer.classList.add('error');
+        userAnswer.nextElementSibling.textContent = `Incorrect! Correct answer starts with "${correctAnswer.charAt(0).toUpperCase()}"`;
+        allCorrect = false;
+      }
+    }
+
+    const message = document.getElementById('message');
+    if (allCorrect) {
+      message.textContent = "🎉 Congratulations! You got all answers correct! Your Flag is: f!@g{G0t_2nd_Fl@g_t00}";
+    } else {
+      message.textContent = "❌ Some answers are incorrect. Try again!";
+    }
+  }
+
+  function resetGame() {
+    document.querySelectorAll('.card').forEach(card => {
+      card.innerHTML = `<span>Click to reveal</span>`;
+      card.classList.remove('revealed');
+    });
+
+    document.querySelectorAll('.answers input').forEach(input => {
+      input.value = "";
+      input.classList.remove('error');
+      input.nextElementSibling.textContent = ""; // Clear feedback
+    });
+
+    document.getElementById('message').textContent = "";
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,307 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 3: Steganography</title>
+    <link rel="icon" href="../image/cyber.png">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom, #1d4350, #a43931);
+            color: #fff;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1; /* Above the canvas */
+            padding: 30px;
+            margin-top: 50px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px #ff5722;
+        }
+
+        .scenario-box {
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 87, 34, 0.3);
+            width: 80%;
+            text-align: left;
+        }
+
+        .question-box, .flag {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 87, 34, 0.3);
+            padding: 20px;
+            text-align: left;
+            margin: auto;
+            width: 60%;
+        }
+
+        a.link {
+            display: inline-block;
+            padding: 10px 20px;
+            color: #1d4350;
+            background: #ff5722;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: 0.3s ease-in-out;
+        }
+
+        a.link:hover {
+            background: #fff;
+            color: #a43931;
+            transform: scale(1.1);
+        }
+
+        .question {
+            margin-bottom: 15px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+            background: #f5f5f5;
+        }
+
+        .input-field:focus {
+            background: #eef8f8;
+            border: 2px solid #ff5722;
+        }
+
+        .error {
+            color: #ff6b6b;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        button.submit {
+            margin-top: 20px;
+            padding: 10px 30px;
+            background: #ff5722;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #1d4350;
+            cursor: pointer;
+            transition: 0.3s ease-in-out;
+        }
+
+        button.submit:hover {
+            background: #fff;
+            color: #a43931;
+            transform: scale(1.1);
+        }
+
+        .flag {
+            margin-top: 30px;
+            padding: 15px;
+            background: #ff5722;
+            border-radius: 10px;
+            color: #1d4350;
+            font-weight: bold;
+            font-size: 1.2rem;
+            display: none;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="glitterCanvas"></canvas>
+    <audio src="../audio/Forensic - bgm - la - la - la -.mp3" autoplay loop></audio>
+    
+    <div class="container">
+        <h1>Challenge 3: Steganography</h1>
+
+        <!-- Scenario -->
+        <div class="scenario-box">
+            <h2>Scenario</h2>
+            <p>As a cybersecurity enthusiast, you've come across an encrypted message hidden inside an image. Your task is to decode the image and uncover the hidden message.</p>
+        </div>
+
+        <!-- Task -->
+        <div class="scenario-box">
+            <h2>Task</h2>
+            <p>
+                1. Download the steganography image using the link below.<br>
+                2. Use an online decoding tool to extract the hidden message.<br>
+                3. Answer the questions and reveal the flag!
+            </p>
+            <a class="link" href="../image/download.png" download>Download Image</a>
+        </div>
+
+        <!-- Questions -->
+        <div class="question-box">
+            <div class="question">
+                <label for="q1">1. What is the URL of the online site used for decoding?</label>
+                <input type="text" id="q1" class="input-field" placeholder="Enter your answer">
+                <div class="error" id="error-q1">Incorrect answer for Question 1. Hint: It starts with "https://stylesuxx".</div>
+            </div>
+            <div class="question">
+                <label for="q2">2. What is the hidden message found inside the image?</label>
+                <input type="text" id="q2" class="input-field" placeholder="Enter your answer">
+                <div class="error" id="error-q2">Incorrect answer for Question 2. Hint: It’s 2 words!</div>
+            </div>
+            <button class="submit" onclick="checkAnswers()">Submit</button>
+        </div>
+
+        <div class="flag" id="flag">
+            🎉 Congratulations! Your flag is: <strong>f!@g{Th!s_ Is_8OOS_L!Fe}</strong>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('glitterCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = (Math.random() - 0.5) * 2;
+                this.speedY = Math.random() * 3 + 1;
+                this.color = `rgba(255, 255, ${Math.random() * 255}, ${Math.random()})`;
+            }
+
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX;
+
+                if (this.y > canvas.height) {
+                    this.y = 0 - this.size;
+                    this.x = Math.random() * canvas.width;
+                }
+                if (this.x > canvas.width || this.x < 0) {
+                    this.x = Math.random() * canvas.width;
+                }
+            }
+
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < 100; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+
+        initParticles();
+        animateParticles();
+        // Disable Right-Click
+        document.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+        });
+
+        // Disable Key Combinations
+        document.addEventListener('keydown', function (e) {
+            // Check for specific key combinations
+            if (
+                (e.ctrlKey && e.shiftKey && e.key === 'I') || // Ctrl+Shift+I
+                (e.ctrlKey && e.key === 'U') ||              // Ctrl+U
+                (e.ctrlKey && e.key === 'S') ||              // Ctrl+S (Optional: Save shortcut)
+                (e.ctrlKey && e.shiftKey && e.key === 'J') || // Ctrl+Shift+J (DevTools)
+                (e.key === 'F12')                            // F12 (DevTools)
+            ) {
+                e.preventDefault();
+            }
+        });
+
+        function checkAnswers() {
+            const q1 = document.getElementById('q1').value.trim().toLowerCase();
+            const q2 = document.getElementById('q2').value.trim().toUpperCase();
+            const errorQ1 = document.getElementById('error-q1');
+            const errorQ2 = document.getElementById('error-q2');
+            const flag = document.getElementById('flag');
+
+            let isCorrect = true;
+
+            // Check Question 1
+            if (q1 === 'https://stylesuxx.github.io/steganography/') {
+                errorQ1.style.display = 'none';
+            } else {
+                errorQ1.style.display = 'block';
+                isCorrect = false;
+            }
+
+            // Check Question 2
+            if (q2 === 'FIND ME') {
+                errorQ2.style.display = 'none';
+            } else {
+                errorQ2.style.display = 'block';
+                isCorrect = false;
+            }
+
+            // Display the flag if both answers are correct
+            if (isCorrect) {
+                flag.style.display = 'block';
+            } else {
+                flag.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

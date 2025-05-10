@@ -1,0 +1,359 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOME | SEP</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="./image/cyber.png">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #84fab0, #8fd3f4);
+            color: #333;
+        }
+
+        .navbar {
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar .greeting {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #feb47b;
+        }
+
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .navbar a:hover {
+            color: #feb47b;
+        }
+
+        .progress-bar {
+            width: 100%;
+            background: #ddd;
+            margin: 0;
+            padding: 0.5rem 0;
+        }
+
+        .progress-bar span {
+            display: block;
+            height: 20px;
+            width: 0%;
+            background: linear-gradient(135deg, #84fab0, #8fd3f4);
+            border-radius: 10px;
+            transition: width 0.5s;
+        }
+
+        .container {
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .section {
+            margin: 1rem 0;
+            padding: 1.5rem;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .section:hover {
+            transform: scale(1.02);
+            background: #f9f9f9;
+        }
+
+        .section button {
+            background: linear-gradient(135deg, #84fab0, #8fd3f4);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+
+        .section button:hover {
+            background: linear-gradient(135deg, #8fd3f4, #84fab0);
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        footer {
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .flag-form {
+            margin-top: 1rem;
+        }
+
+        .flag-form input[type="text"] {
+            padding: 0.5rem;
+            width: 80%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .flag-form button {
+            background: linear-gradient(135deg, #84fab0, #8fd3f4);
+            border: none;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+
+        .flag-form button:hover {
+            background: linear-gradient(135deg, #8fd3f4, #84fab0);
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .music{
+            display: none;
+
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: translate(-50%, -50%) scale(0.8);
+                opacity: 0;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .winner-popup h1 {
+            font-size: 2.5rem;
+            color: #f39c12;
+            animation: bounce 1s infinite;
+        }
+
+        .winner-popup p {
+            font-size: 1.2rem;
+            color: #2c3e50;
+            margin-top: 10px;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <audio src="./audio/bg.mp3" autoplay loop></audio>
+    <nav class="navbar">
+        <div class="greeting">
+            Greetings, Beautiful Souls. You are the real <strong style="color: palevioletred;">BOSS</strong> !
+        </div>
+        
+    </nav>
+    <div class="progress-bar">
+        <span id="progress" style="width: 0%;"></span>
+    </div>
+
+    <div class="container">
+        <h1>Welcome to the Activities Portal</h1>
+        <p>Select an activity to get started:</p>
+
+        <div class="section">
+            <h3>Cyber Maze</h3>
+            <p>Use the arrow keys to move through the maze. Collect clues, answer questions, and reach the exit to win!</p>
+            <button onclick="location.href='./maze/index.html'">Start</button>
+
+            <div class="flag-form">
+                <form>
+                    <input type="text" name="flag_cyber_maze" placeholder="Enter the flag here">
+                    <button type="submit">Submit Flag</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Guess The Term</h3>
+            <p>Emoji Quiz - Guess the Word. Emojis will be reveal, think deep and relate it to pass this quiz.</p>
+            <button onclick="location.href='./pictionary/index.html'">Start</button>
+            <div class="flag-form">
+                <form>
+                    <input type="text" name="flag_activity2" placeholder="Enter the flag here">
+                    <button type="submit">Submit Flag</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Steganography</h3>
+            <p>Use stylesuxx.github to find the hidden message.</p>
+            <button onclick="location.href='./steg/index.html'">Start</button>
+
+            <div class="flag-form">
+                <form>
+                    <input type="text" name="flag_activity3" placeholder="Enter the flag here">
+                    <button type="submit">Submit Flag</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/confetti-js/dist/index.min.js"></script>
+    <script>
+        // Disable Right-Click
+        document.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+        });
+
+        // Disable Key Combinations
+        document.addEventListener('keydown', function (e) {
+            // Check for specific key combinations
+            if (
+                (e.ctrlKey && e.shiftKey && e.key === 'I') || // Ctrl+Shift+I
+                (e.ctrlKey && e.key === 'U') ||              // Ctrl+U
+                (e.ctrlKey && e.key === 'S') ||              // Ctrl+S
+                (e.ctrlKey && e.shiftKey && e.key === 'J') || // Ctrl+Shift+J
+                (e.key === 'F12')                            // F12
+            ) {
+                e.preventDefault();
+                alert("This shortcut is disabled.");
+            }
+        });
+
+
+        const progress = document.getElementById('progress');
+        let tasksCompleted = 0;
+        const totalTasks = 3;
+    
+        // Predefined flags for activities
+        const correctFlags = {
+            flag_cyber_maze: "flag{ESC@PE_COMPLETE}",
+            flag_activity2: "f!@g{G0t_2nd_Fl@g_t00}",
+            flag_activity3: "f!@g{Th!s_ Is_8OOS_L!Fe}"
+        };
+    
+        // Update progress bar
+        function updateProgress() {
+            const progressPercentage = (tasksCompleted / totalTasks) * 100;
+            progress.style.width = progressPercentage + '%';
+        }
+    
+        // Show winner animation on full completion
+        function showCompletionAnimation() {
+            const body = document.body;
+    
+            // Add confetti effect
+            const confettiCanvas = document.createElement('canvas');
+            confettiCanvas.setAttribute('id', 'confetti-canvas');
+            confettiCanvas.style.position = 'fixed';
+            confettiCanvas.style.top = '0';
+            confettiCanvas.style.left = '0';
+            confettiCanvas.style.width = '100%';
+            confettiCanvas.style.height = '100%';
+            confettiCanvas.style.zIndex = '1000';
+            body.appendChild(confettiCanvas);
+    
+            const confetti = new ConfettiGenerator({ target: 'confetti-canvas' });
+            confetti.render();
+    
+            // Add popup glitter text
+            const popup = document.createElement('div');
+            popup.innerHTML = `
+                <div class="winner-popup">
+                    <h1>🎉 YOU DID IT! 🎉</h1>
+                    <p>All activities completed successfully!</p>
+                </div>
+            `;
+            popup.style.position = 'fixed';
+            popup.style.top = '50%';
+            popup.style.left = '50%';
+            popup.style.transform = 'translate(-50%, -50%)';
+            popup.style.backgroundColor = '#fff';
+            popup.style.color = '#333';
+            popup.style.borderRadius = '15px';
+            popup.style.padding = '20px';
+            popup.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.3)';
+            popup.style.textAlign = 'center';
+            popup.style.zIndex = '1001';
+            popup.style.animation = 'popIn 0.8s ease';
+    
+            body.appendChild(popup);
+    
+            // Cleanup animations after 10 seconds
+            setTimeout(() => {
+                confetti.clear();
+                popup.remove();
+                confettiCanvas.remove();
+            }, 10000);
+        }
+    
+        // Handle flag submission
+        document.querySelectorAll('.flag-form form').forEach((form) => {
+            const feedback = document.createElement('p'); // Feedback message
+            feedback.style.fontWeight = 'bold';
+            feedback.style.marginTop = '0.5rem';
+            form.appendChild(feedback);
+    
+            form.addEventListener('submit', (event) => {
+                event.preventDefault(); // Prevent form from refreshing the page
+    
+                const inputField = form.querySelector('input[type="text"]');
+                const flagName = inputField.name;
+                const userFlag = inputField.value.trim();
+    
+                if (userFlag === correctFlags[flagName]) {
+                    if (!form.dataset.solved) { // Prevent multiple increments
+                        tasksCompleted++;
+                        form.dataset.solved = true;
+                        feedback.textContent = '✅ Correct flag! Activity completed.';
+                        feedback.style.color = 'green';
+                        updateProgress();
+    
+                        if (tasksCompleted === totalTasks) {
+                            showCompletionAnimation();
+                        }
+                    } else {
+                        feedback.textContent = 'ℹ️ You have already completed this activity!';
+                        feedback.style.color = 'blue';
+                    }
+                } else {
+                    feedback.textContent = '❌ Incorrect flag. Try again.';
+                    feedback.style.color = 'red';
+                }
+            });
+        });
+    
+        // Initialize progress on page load
+        updateProgress();
+    </script>
+    
+    
+</body>
+</html>
